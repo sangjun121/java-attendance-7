@@ -18,6 +18,6 @@ public class AttendanceService {
     }
 
     public Today readCurrentTime(){
-        return attendanceRegistry.readToday();
+        return attendanceRegistry.getToday();
     }
 }

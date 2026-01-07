@@ -5,6 +5,7 @@ import attendance.domain.Today;
 import attendance.view.InputView;
 import attendance.view.OutputView;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +32,23 @@ public class AttendanceController {
     private void runApplication() {
         Today today = attendanceService.readCurrentTime();
         outputView.printMainPage(today.getMonth(), today.getDate(), today.getDayOfWeek());
-        while (!inputView.readFunctionNumber().equals("Q")) {
 
+        String functionNumber = inputView.readFunctionNumber();
+        while (!functionNumber.equals("Q")) {
+            controlFunctions(functionNumber);
+
+            functionNumber = inputView.readFunctionNumber();
         }
+    }
+
+    private void controlFunctions(String functionNumber) {
+        if (functionNumber.equals("1")) {
+            saveAttendance();
+        }
+    }
+
+    private void saveAttendance() {
+        String nickname = inputView.readNickname();
+        LocalTime attendanceTime = inputView.readAttendanceTime();
     }
 }
