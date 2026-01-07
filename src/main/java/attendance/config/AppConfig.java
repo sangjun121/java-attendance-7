@@ -1,6 +1,8 @@
 package attendance.config;
 
+import attendance.application.AttendanceService;
 import attendance.controller.AttendanceController;
+import attendance.registory.AttendanceRegistry;
 import attendance.view.InputParser;
 import attendance.view.InputView;
 
@@ -22,7 +24,11 @@ public class AppConfig {
         return new InputView(inputParser());
     }
 
+    public AttendanceService attendanceService(){
+        return new AttendanceService(AttendanceRegistry.getInstance());
+    }
+
     public AttendanceController attendanceController(){
-        return new AttendanceController(inputView());
+        return new AttendanceController(inputView(),attendanceService());
     }
 }

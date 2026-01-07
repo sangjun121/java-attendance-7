@@ -1,24 +1,25 @@
 package attendance.controller;
 
+import attendance.application.AttendanceService;
 import attendance.view.InputView;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 public class AttendanceController {
     private final InputView inputView;
+    private final AttendanceService attendanceService;
 
-    public AttendanceController(InputView inputView) {
+    public AttendanceController(InputView inputView, AttendanceService attendanceService) {
         this.inputView = inputView;
+        this.attendanceService = attendanceService;
     }
 
     public void run() {
-        Map<String, List<LocalDateTime>> attendances = inputView.readAttendance();
+        runBootStrap(inputView.readAttendance());
+    }
 
-        for (Entry<String, List<LocalDateTime>> attendance : attendances.entrySet()) {
-            System.out.println(attendance.getKey() + " " + attendance.getValue().size());
-        }
+    private void runBootStrap(Map<String, List<LocalDateTime>> attendances) {
+        attendanceService.initializeAttendances(attendances);
     }
 }
