@@ -50,5 +50,6 @@ public class AttendanceController {
     private void saveAttendance() {
         String nickname = inputView.readNickname();
         LocalTime attendanceTime = inputView.readAttendanceTime();
+        attendanceService.saveAttendance(nickname, attendanceTime);
     }
 }

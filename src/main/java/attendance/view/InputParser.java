@@ -1,6 +1,8 @@
 package attendance.view;
 
+import attendance.domain.DayOfWeek;
 import attendance.registory.AttendanceRegistry;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -47,7 +49,9 @@ public class InputParser {
     public LocalTime parseAttendanceTime(String input) {
         String[] split = input.split(":");
         try {
-            return LocalTime.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+            LocalTime attendanceTime = LocalTime.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+            validateAttendanceTime(attendanceTime);
+            return attendanceTime;
         } catch (IllegalArgumentException e){
             throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
         }
@@ -71,9 +75,12 @@ public class InputParser {
         }
     }
 
-    private void validateAttendanceTime(String input) {
-        if (!attendanceRegistry.isExistCrew(nickname)) {
-            throw new IllegalArgumentException("[ERROR] 등록되지 않은 닉네임입니다.");
+    private void validateAttendanceTime(LocalTime attendanceTime) {
+        String dayOfWeek = attendanceRegistry.getToday().getDayOfWeek();
+        LocalTime startTime = DayOfWeek.getDayOfWeek(dayOfWeek).getStartTime();
+
+        if(startTime.isAfter(attendanceTime)){
+            throw new IllegalArgumentException("[ERROR] 캠퍼스 운영 시간에만 출석이 가능합니다.");
         }
     }
 }

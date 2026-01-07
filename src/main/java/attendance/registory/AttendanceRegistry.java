@@ -3,6 +3,7 @@ package attendance.registory;
 import attendance.domain.Attendance;
 import attendance.domain.Today;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,43 @@ public class AttendanceRegistry {
             }
         }
 
+        return false;
+    }
+
+    public boolean isExistAttendanceOnToday(String targetName){
+        for(Attendance attendance : attendances){
+            if(attendance.getNickName().equals(targetName)){
+                return isExistAttendanceOnDay(attendance);
+            }
+        }
+
+        return false;
+    }
+
+    public void saveAttendance(String nickname, LocalTime attendaceDate) {
+        LocalDateTime attendanceTime = LocalDateTime.of(today.getLocalDate(), attendaceDate);
+        Attendance attendance = finaAttendanceByName(nickname);
+        attendance.getAttendanceTime().add(attendanceTime);
+    }
+
+    private Attendance finaAttendanceByName(String name){
+        for(Attendance attendance : attendances){
+            if (attendance.getNickName().equals(name)) {
+                return attendance;
+            }
+        }
+        return null;
+    }
+
+    private boolean isExistAttendanceOnDay(Attendance attendance){
+        int todayMonth = today.getMonth();
+        int todayDate = today.getDate();
+
+        for (LocalDateTime dateTime : attendance.getAttendanceTime()) {
+            if (dateTime.getMonth().getValue() == todayMonth || dateTime.getDayOfMonth() == todayDate) {
+                return true;
+            }
+        }
         return false;
     }
 }

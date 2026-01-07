@@ -15,4 +15,12 @@ public class Attendance {
     public String getNickName(){
         return nickName;
     }
+
+    public List<LocalDateTime> getAttendanceTime() {
+        return attendanceTime;
+    }
+
+    public void saveAttendance(LocalDateTime attendanceTime){
+        this.attendanceTime.add(attendanceTime);
+    }
 }

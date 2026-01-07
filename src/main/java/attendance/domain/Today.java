@@ -1,6 +1,7 @@
 package attendance.domain;
 
 import camp.nextstep.edu.missionutils.DateTimes;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -25,5 +26,9 @@ public class Today {
 
     public String getDayOfWeek(){
         return dayOfWeek.getDayOfWeek();
+    }
+
+    public LocalDate getLocalDate(){
+        return currentTime.toLocalDate();
     }
 }
