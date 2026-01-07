@@ -27,8 +27,20 @@ public class InputParser {
         return attendances;
     }
 
+    public String parseFunctionNumber(String input) {
+        validateFunctionNumber(input.trim());
+        return input.trim();
+    }
+
     private LocalDateTime parseDateTime(String input) {
         String formattedInput = input.replace(" ", "T").concat(":00");
         return LocalDateTime.parse(formattedInput);
+    }
+
+    private void validateFunctionNumber(String input) {
+        if (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("Q")) {
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
     }
 }

@@ -1,5 +1,7 @@
 package attendance.view;
 
+import static camp.nextstep.edu.missionutils.Console.readLine;
+
 import attendance.util.ResourceReader;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,5 +17,10 @@ public class InputView {
     public Map<String, List<LocalDateTime>> readAttendance() {
         List<String> lines = ResourceReader.readCSV("src/main/resources/attendances.csv");
         return inputParser.parseAttendances(lines);
+    }
+
+    public String readFunctionNumber(){
+        String input = readLine();
+        return inputParser.parseFunctionNumber(input);
     }
 }

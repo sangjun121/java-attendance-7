@@ -14,4 +14,16 @@ public class Today {
         this.dayOfWeek = DayOfWeek.getDayOfWeek(
                 currentTime.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN));
     }
+
+    public int getMonth(){
+        return currentTime.getMonth().getValue();
+    }
+
+    public int getDate(){
+        return currentTime.getDayOfMonth();
+    }
+
+    public String getDayOfWeek(){
+        return dayOfWeek.getDayOfWeek();
+    }
 }

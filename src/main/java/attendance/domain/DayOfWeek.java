@@ -27,6 +27,10 @@ public enum DayOfWeek {
         throw new IllegalArgumentException("[ERROR] 올바르지 않은 요일입니다.");
     }
 
+    public String getDayOfWeek(){
+        return dayOfWeek;
+    }
+
     public LocalTime getStartTime(){
         return startTime;
     }

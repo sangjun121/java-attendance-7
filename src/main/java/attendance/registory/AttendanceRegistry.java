@@ -9,10 +9,12 @@ import java.util.Map;
 
 public class AttendanceRegistry {
     private static final AttendanceRegistry INSTANCE = new AttendanceRegistry();
-//    private final Today today;
-    private Map<String, List<LocalDateTime>> attendances = new HashMap<>();
+    private final Today today;
+    private Map<String, List<LocalDateTime>> attendances;
 
     private AttendanceRegistry() {
+        this.today = new Today();
+        this.attendances = new HashMap<>();
     }
 
     public static AttendanceRegistry getInstance() {
@@ -29,5 +31,9 @@ public class AttendanceRegistry {
         } else {
             this.attendances.put(name, new ArrayList<>(List.of(time)));
         }
+    }
+
+    public Today readToday(){
+        return today;
     }
 }
