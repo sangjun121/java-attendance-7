@@ -37,6 +37,10 @@ public class AttendanceRegistry {
         return false;
     }
 
+    public void saveAttendance(String name, LocalDateTime attendanceTime){
+        findAttendanceByName(name).getAttendances().add(attendanceTime);
+    }
+
     public void initializeAttendances(List<AttendanceRequest> requests) {
         for (AttendanceRequest request : requests) {
             Attendance attendance = findAttendanceByName(request.name());

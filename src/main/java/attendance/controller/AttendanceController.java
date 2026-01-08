@@ -43,7 +43,6 @@ public class AttendanceController {
     private void guideFunction(Today today, String functionNumber) {
         if (functionNumber.equals("1")) {
             saveAttendance(today);
-
         }
     }
 
@@ -51,6 +50,8 @@ public class AttendanceController {
         attendanceService.validateFunctionPossible(today);
         String name = inputView.readNickName();
         LocalDateTime time = inputView.readAttendanceTime(today);
-        attendanceService.saveAttendance(today, name, time);
+        String status = attendanceService.saveAttendance(today, name, time);
+        outputView.printSuccessSaveGuide(today.getMonth(), today.getDate(), today.getDayOfWeek(), time.getHour(),
+                time.getMinute(), status);
     }
 }
