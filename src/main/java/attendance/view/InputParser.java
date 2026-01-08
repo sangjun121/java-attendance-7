@@ -53,7 +53,10 @@ public class InputParser {
             validateAttendanceTime(attendanceTime);
             return attendanceTime;
         } catch (IllegalArgumentException | DateTimeException e) {
-            throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+            if (e instanceof DateTimeException) {
+                throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+            }
+            throw e;
         }
     }
 
@@ -79,7 +82,7 @@ public class InputParser {
         String dayOfWeek = attendanceRegistry.getToday().getDayOfWeek();
         LocalTime startTime = DayOfWeek.getDayOfWeek(dayOfWeek).getStartTime();
 
-        if(startTime.isAfter(attendanceTime)){
+        if (startTime.isAfter(attendanceTime)) {
             throw new IllegalArgumentException("[ERROR] 캠퍼스 운영 시간에만 출석이 가능합니다.");
         }
     }

@@ -12,8 +12,8 @@ public class Today {
 
     public Today() {
         this.currentTime = DateTimes.now();
-        this.dayOfWeek = DayOfWeek.getDayOfWeek(
-                currentTime.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN));
+        this.dayOfWeek = DayOfWeek.getDayOfWeek("금");
+//                currentTime.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN));
     }
 
     public int getMonth(){
@@ -30,5 +30,12 @@ public class Today {
 
     public LocalDate getLocalDate(){
         return currentTime.toLocalDate();
+    }
+
+    public boolean isPossibleAttendanceDate(){
+        if (dayOfWeek.getDayOfWeek().equals("토") || dayOfWeek.getDayOfWeek().equals("일")) {
+            return false;
+        }
+        return true;
     }
 }

@@ -77,7 +77,7 @@ public class AttendanceRegistry {
         int todayDate = today.getDate();
 
         for (LocalDateTime dateTime : attendance.getAttendanceTime()) {
-            if (dateTime.getMonth().getValue() == todayMonth || dateTime.getDayOfMonth() == todayDate) {
+            if (dateTime.getMonth().getValue() == todayMonth && dateTime.getDayOfMonth() == todayDate) {
                 return true;
             }
         }

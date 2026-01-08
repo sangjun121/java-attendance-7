@@ -4,10 +4,12 @@ import java.time.LocalTime;
 
 public enum DayOfWeek {
     MONDAY("월", LocalTime.of(13, 00)),
-    TUESDAY("화", LocalTime.of(10, 00)),
-    WEDNESDAY("수", LocalTime.of(10, 00)),
-    THURSDAY("목", LocalTime.of(10, 00)),
-    FRIDAY("금", LocalTime.of(10, 00));
+    TUESDAY("화", LocalTime.of(8, 00)),
+    WEDNESDAY("수", LocalTime.of(8, 00)),
+    THURSDAY("목", LocalTime.of(8, 00)),
+    FRIDAY("금", LocalTime.of(8, 00)),
+    SATURDAY("토", LocalTime.of(23, 59)),
+    SUNDAY("일", LocalTime.of(23, 59));
 
     private final String dayOfWeek;
     private final LocalTime startTime;

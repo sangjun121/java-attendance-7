@@ -29,4 +29,12 @@ public class AttendanceService {
         attendanceRegistry.saveAttendance(nickname, attendanceTime);
         return attendanceTime;
     }
+
+    public void validateIsPossibleAttendanceDate(Today today) {
+        if (!today.isPossibleAttendanceDate()) {
+            throw new IllegalArgumentException(
+                    "[ERROR] " + today.getMonth() + "월 " + today.getDate() + "일 " + today.getDayOfWeek()
+                            + "요일은 등교일이 아닙니다.");
+        }
+    }
 }

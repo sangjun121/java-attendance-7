@@ -35,7 +35,7 @@ public class AttendanceController {
 
         String functionNumber = inputView.readFunctionNumber();
         while (!functionNumber.equals("Q")) {
-            controlFunctions(functionNumber,today);
+            controlFunctions(functionNumber, today);
 
             functionNumber = inputView.readFunctionNumber();
         }
@@ -48,9 +48,10 @@ public class AttendanceController {
     }
 
     private void saveAttendance(Today today) {
+        attendanceService.validateIsPossibleAttendanceDate(today);
         String nickname = inputView.readNickname();
         LocalTime attendanceTime = inputView.readAttendanceTime();
         attendanceService.saveAttendance(nickname, attendanceTime);
-        outputView.printAttendanceSaveMessage(today.getMonth(), today.getDate(), today.getDayOfWeek(),attendanceTime);
+        outputView.printAttendanceSaveMessage(today.getMonth(), today.getDate(), today.getDayOfWeek(), attendanceTime);
     }
 }
