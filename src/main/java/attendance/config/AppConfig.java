@@ -5,6 +5,7 @@ import attendance.registry.AttendanceRegistry;
 import attendance.service.AttendanceService;
 import attendance.view.InputParser;
 import attendance.view.InputView;
+import attendance.view.OutputView;
 
 public class AppConfig {
     private static final AppConfig INSTANCE = new AppConfig();
@@ -20,6 +21,10 @@ public class AppConfig {
         return new InputView(inputParser());
     }
 
+    public OutputView outputView() {
+        return new OutputView();
+    }
+
     public InputParser inputParser() {
         return new InputParser();
     }
@@ -29,6 +34,6 @@ public class AppConfig {
     }
 
     public AttendanceController attendanceController() {
-        return new AttendanceController(inputView(), attendanceService());
+        return new AttendanceController(inputView(), outputView(), attendanceService());
     }
 }
