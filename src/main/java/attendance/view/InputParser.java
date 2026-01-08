@@ -2,7 +2,7 @@ package attendance.view;
 
 import attendance.domain.DayOfWeek;
 import attendance.registory.AttendanceRegistry;
-import java.time.LocalDate;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class InputParser {
             LocalTime attendanceTime = LocalTime.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
             validateAttendanceTime(attendanceTime);
             return attendanceTime;
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException | DateTimeException e) {
             throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
         }
     }
