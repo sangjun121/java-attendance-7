@@ -48,6 +48,10 @@ public class AttendanceRegistry {
         }
     }
 
+    public boolean isExistCrew(String name){
+        return !findAttendanceByName(name).getAttendances().isEmpty();
+    }
+
     private Attendance findAttendanceByName(String name) {
         for (Attendance attendance : attendances) {
             if (attendance.getName().equals(name)) {

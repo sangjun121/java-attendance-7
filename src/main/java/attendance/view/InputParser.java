@@ -2,12 +2,19 @@ package attendance.view;
 
 import attendance.controller.dto.AttendanceRequest;
 import attendance.domain.Today;
+import attendance.registry.AttendanceRegistry;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InputParser {
+    private final AttendanceRegistry attendanceRegistry;
+
+    public InputParser(AttendanceRegistry attendanceRegistry) {
+        this.attendanceRegistry = attendanceRegistry;
+    }
+
     public List<AttendanceRequest> parseAttendancesInput(List<String> attendanceInputs) {
         List<AttendanceRequest> requests = new ArrayList<>();
         attendanceInputs.removeFirst();
@@ -26,6 +33,7 @@ public class InputParser {
     }
 
     public String parseName(String input) {
+        validateName(input);
         return input;
     }
 
@@ -59,6 +67,12 @@ public class InputParser {
     private void validateFunctionNumber(String input) {
         if (!(input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("Q"))) {
             throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+        }
+    }
+
+    private void validateName(String input){
+        if(!attendanceRegistry.isExistCrew(input)){
+            throw new IllegalArgumentException("[ERROR] 등록되지 않은 닉네임입니다.");
         }
     }
 }

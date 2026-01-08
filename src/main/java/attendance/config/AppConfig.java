@@ -26,7 +26,7 @@ public class AppConfig {
     }
 
     public InputParser inputParser() {
-        return new InputParser();
+        return new InputParser(AttendanceRegistry.getInstance());
     }
 
     public AttendanceService attendanceService() {
