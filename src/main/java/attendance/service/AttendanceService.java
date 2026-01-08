@@ -23,7 +23,7 @@ public class AttendanceService {
     public void validateFunctionPossible(Today today) {
         if (today.getDayOfWeek().equals("토") || today.getDayOfWeek().equals("일")) {
             throw new IllegalArgumentException(
-                    "[ERROR] " + today.getMonth() + "월" + today.getDate() + "일 " + today.getDayOfWeek()
+                    "[ERROR] " + today.getMonth() + "월 " + today.getDate() + "일 " + today.getDayOfWeek()
                             + "요일은 등교일이 아닙니다.");
         }
     }

@@ -21,7 +21,7 @@ public class InputParser {
         for (String input : attendanceInputs) {
             String[] nameAndAttendance = input.split(",");
             requests.add(
-                    new AttendanceRequest(parseName(nameAndAttendance[0]), parseAttendanceTime(nameAndAttendance[1])));
+                    new AttendanceRequest(nameAndAttendance[0], parseAttendanceTime(nameAndAttendance[1])));
         }
 
         return requests;
@@ -70,8 +70,8 @@ public class InputParser {
         }
     }
 
-    private void validateName(String input){
-        if(!attendanceRegistry.isExistCrew(input)){
+    private void validateName(String input) {
+        if (!attendanceRegistry.isExistCrew(input)) {
             throw new IllegalArgumentException("[ERROR] 등록되지 않은 닉네임입니다.");
         }
     }
