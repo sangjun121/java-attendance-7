@@ -31,5 +31,13 @@ public class AttendanceController {
 
     private void runMainPage(Today today) {
         outputView.printMainPage(today.getMonth(), today.getDate(), today.getDayOfWeek());
+        String functionNumber = inputView.readFunctionNumber();
+        while (!functionNumber.equals("Q")) {
+            guideFunction(today, functionNumber);
+            functionNumber = inputView.readFunctionNumber();
+        }
+    }
+
+    private void guideFunction(Today today, String functionNumber) {
     }
 }
