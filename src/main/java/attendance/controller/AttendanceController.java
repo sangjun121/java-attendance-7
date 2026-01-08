@@ -35,21 +35,22 @@ public class AttendanceController {
 
         String functionNumber = inputView.readFunctionNumber();
         while (!functionNumber.equals("Q")) {
-            controlFunctions(functionNumber);
+            controlFunctions(functionNumber,today);
 
             functionNumber = inputView.readFunctionNumber();
         }
     }
 
-    private void controlFunctions(String functionNumber) {
+    private void controlFunctions(String functionNumber, Today today) {
         if (functionNumber.equals("1")) {
-            saveAttendance();
+            saveAttendance(today);
         }
     }
 
-    private void saveAttendance() {
+    private void saveAttendance(Today today) {
         String nickname = inputView.readNickname();
         LocalTime attendanceTime = inputView.readAttendanceTime();
         attendanceService.saveAttendance(nickname, attendanceTime);
+        outputView.printAttendanceSaveMessage(today.getMonth(), today.getDate(), today.getDayOfWeek(),attendanceTime);
     }
 }

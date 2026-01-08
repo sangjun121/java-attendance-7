@@ -22,10 +22,11 @@ public class AttendanceService {
         return attendanceRegistry.getToday();
     }
 
-    public void saveAttendance(String nickname, LocalTime attendanceTime) {
+    public LocalTime saveAttendance(String nickname, LocalTime attendanceTime) {
         if (attendanceRegistry.isExistAttendanceOnToday(nickname)) {
             throw new IllegalArgumentException("[ERROR] 이미 출석을 확인하였습니다. 필요한 경우 수정 기능을 이용해 주세요.");
         }
         attendanceRegistry.saveAttendance(nickname, attendanceTime);
+        return attendanceTime;
     }
 }
