@@ -7,6 +7,7 @@ import attendance.view.InputView;
 import attendance.view.OutputView;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class AttendanceController {
     private final InputView inputView;
@@ -44,8 +45,8 @@ public class AttendanceController {
         if (functionNumber.equals("1")) {
             saveAttendance(today);
         }
-        if (functionNumber.equals("2")) {
-
+        if (functionNumber.equals("3")) {
+            readAttendance();
         }
     }
 
@@ -58,7 +59,9 @@ public class AttendanceController {
                 time.getMinute(), status);
     }
 
-    private void readAttendance(){
+    private void readAttendance() {
         String name = inputView.readNickName();
+        Map<LocalDateTime, String> attendances = attendanceService.readAttendanceByName(name);
+        outputView.printAttendancesResult(name, attendances);
     }
 }

@@ -52,7 +52,7 @@ public class AttendanceRegistry {
         return !findAttendanceByName(name).getAttendances().isEmpty();
     }
 
-    private Attendance findAttendanceByName(String name) {
+    public Attendance findAttendanceByName(String name) {
         for (Attendance attendance : attendances) {
             if (attendance.getName().equals(name)) {
                 return attendance;

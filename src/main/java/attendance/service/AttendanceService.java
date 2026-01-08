@@ -1,13 +1,21 @@
 package attendance.service;
 
 import attendance.controller.dto.AttendanceRequest;
+import attendance.domain.Attendance;
 import attendance.domain.LectureSchedule;
 import attendance.domain.Today;
 import attendance.registry.AttendanceRegistry;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.TextStyle;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class AttendanceService {
     private final AttendanceRegistry attendanceRegistry;
@@ -31,7 +39,14 @@ public class AttendanceService {
     public String saveAttendance(Today today, String name, LocalDateTime attendanceTime) {
         validateNewDate(today.getLocalDate(), name);
         attendanceRegistry.saveAttendance(name, attendanceTime);
-        return getStatus(today, attendanceTime);
+        return getStatus(attendanceTime);
+    }
+
+    public Map<LocalDateTime, String> readAttendanceByName(String name) {
+        Attendance attendance = attendanceRegistry.findAttendanceByName(name);
+        List<LocalDateTime> attendancesTime = attendance.getAttendances();
+        Collections.sort(attendancesTime);
+        return makeResult(attendancesTime);
     }
 
     private void validateNewDate(LocalDate today, String name) {
@@ -40,8 +55,9 @@ public class AttendanceService {
         }
     }
 
-    private String getStatus(Today today, LocalDateTime attendanceTime) {
-        LocalTime startTime = LectureSchedule.getLectureScheduleByName(today.getDayOfWeek()).getStartTime();
+    private String getStatus(LocalDateTime attendanceTime) {
+        String dayOfWeek = attendanceTime.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN);
+        LocalTime startTime = LectureSchedule.getLectureScheduleByName(dayOfWeek).getStartTime();
 
         if (attendanceTime.toLocalTime().isAfter(startTime.plusMinutes(5))) {
             return "지각";
@@ -50,5 +66,13 @@ public class AttendanceService {
             return "결석";
         }
         return "출석";
+    }
+
+    private Map<LocalDateTime, String> makeResult(List<LocalDateTime> attendancesTimes) {
+        LinkedHashMap<LocalDateTime, String> attendancesResult = new LinkedHashMap<>();
+        for (LocalDateTime attendanceTime : attendancesTimes) {
+            attendancesResult.put(attendanceTime, getStatus(attendanceTime));
+        }
+        return attendancesResult;
     }
 }
