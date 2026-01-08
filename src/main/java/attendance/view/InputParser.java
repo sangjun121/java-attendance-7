@@ -1,6 +1,7 @@
 package attendance.view;
 
 import attendance.controller.dto.AttendanceRequest;
+import attendance.domain.Today;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -24,8 +25,15 @@ public class InputParser {
         return input;
     }
 
-    private String parseName(String input) {
+    public String parseName(String input) {
         return input;
+    }
+
+    public LocalDateTime parseAttendance(Today today, String input) {
+        LocalDateTime attendanceTime = LocalDateTime.parse(
+                today.getYear() + "-" + today.getMonth() + "-" + today.getDate() + "T" + input + ":00");
+        validateAttendanceTime(attendanceTime);
+        return attendanceTime;
     }
 
     private LocalDateTime parseAttendanceTime(String input) {

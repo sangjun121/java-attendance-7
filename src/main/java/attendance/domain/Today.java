@@ -11,12 +11,24 @@ public class Today {
         this.currentTime = LocalDateTime.now();
     }
 
-    public int getMonth() {
-        return currentTime.getMonth().getValue();
+    public int getYear() {
+        return currentTime.getYear();
     }
 
-    public int getDate() {
-        return currentTime.getDayOfMonth();
+    public String getMonth() {
+        int value = currentTime.getMonth().getValue();
+        if (1 <= value && value <= 9) {
+            return "0" + value;
+        }
+        return Integer.toString(value);
+    }
+
+    public String getDate() {
+        int value = currentTime.getDayOfMonth();
+        if (1 <= value && value <= 9) {
+            return "0" + value;
+        }
+        return Integer.toString(value);
     }
 
     public String getDayOfWeek() {

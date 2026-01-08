@@ -5,6 +5,7 @@ import attendance.domain.Today;
 import attendance.service.AttendanceService;
 import attendance.view.InputView;
 import attendance.view.OutputView;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AttendanceController {
@@ -39,5 +40,15 @@ public class AttendanceController {
     }
 
     private void guideFunction(Today today, String functionNumber) {
+        if (functionNumber.equals("1")) {
+            saveAttendance(today);
+
+        }
+    }
+
+    private void saveAttendance(Today today){
+        attendanceService.validateFunctionPossible(today);
+        String name = inputView.readNickName();
+        LocalDateTime time = inputView.readAttendanceTime(today);
     }
 }
