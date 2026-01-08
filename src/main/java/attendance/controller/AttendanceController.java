@@ -1,6 +1,7 @@
 package attendance.controller;
 
 import attendance.controller.dto.AttendanceRequest;
+import attendance.domain.Today;
 import attendance.service.AttendanceService;
 import attendance.view.InputView;
 import attendance.view.OutputView;
@@ -17,18 +18,18 @@ public class AttendanceController {
         this.attendanceService = attendanceService;
     }
 
-    public void run(){
-        bootStrap();
-        runMainPage();
+    public void run() {
+        Today today = bootStrap();
+        runMainPage(today);
     }
 
-    private void bootStrap(){
+    private Today bootStrap() {
         List<AttendanceRequest> attendanceRequests = inputView.readAttendancesInput();
         attendanceService.saveAttendances(attendanceRequests);
+        return new Today();
     }
 
-    private void runMainPage(){
-        outputView.printMainPage();
+    private void runMainPage(Today today) {
+        outputView.printMainPage(today.getMonth(), today.getDate(), today.getDayOfWeek());
     }
 }
-
