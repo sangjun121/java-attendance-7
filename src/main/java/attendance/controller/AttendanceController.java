@@ -44,6 +44,9 @@ public class AttendanceController {
         if (functionNumber.equals("1")) {
             saveAttendance(today);
         }
+        if (functionNumber.equals("2")) {
+
+        }
     }
 
     private void saveAttendance(Today today) {
@@ -53,5 +56,9 @@ public class AttendanceController {
         String status = attendanceService.saveAttendance(today, name, time);
         outputView.printSuccessSaveGuide(today.getMonth(), today.getDate(), today.getDayOfWeek(), time.getHour(),
                 time.getMinute(), status);
+    }
+
+    private void readAttendance(){
+        String name = inputView.readNickName();
     }
 }
