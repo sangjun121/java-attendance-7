@@ -30,10 +30,14 @@ public class InputParser {
     }
 
     public LocalDateTime parseAttendance(Today today, String input) {
-        LocalDateTime attendanceTime = LocalDateTime.parse(
-                today.getYear() + "-" + today.getMonth() + "-" + today.getDate() + "T" + input + ":00");
-        validateAttendanceTime(attendanceTime);
-        return attendanceTime;
+        try {
+            LocalDateTime attendanceTime = LocalDateTime.parse(
+                    today.getYear() + "-" + today.getMonth() + "-" + today.getDate() + "T" + input + ":00");
+            validateAttendanceTime(attendanceTime);
+            return attendanceTime;
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+        }
     }
 
     private LocalDateTime parseAttendanceTime(String input) {
@@ -48,7 +52,7 @@ public class InputParser {
     }
 
     private void validateAttendanceTime(LocalDateTime attendanceTime) {
-        //TODO: 캠퍼스 운영시간이 아닌경우 예외처리
+        //TODO: 캠퍼스 운영시간이 아닌 경우 예외처리
         //TODO: 주말인 경우 예외처리
     }
 
