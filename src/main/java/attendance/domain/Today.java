@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
@@ -9,7 +10,7 @@ public class Today {
     private final LocalDateTime currentTime;
 
     public Today() {
-        this.currentTime = LocalDateTime.now();
+        this.currentTime = DateTimes.now();
     }
 
     public int getYear() {

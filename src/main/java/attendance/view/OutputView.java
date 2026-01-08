@@ -15,7 +15,7 @@ public class OutputView {
     }
 
     private String parseTimeFormat(int time) {
-        if (1 <= time && time <= 9) {
+        if (0 <= time && time <= 9) {
             return "0" + time;
         }
         return Integer.toString(time);

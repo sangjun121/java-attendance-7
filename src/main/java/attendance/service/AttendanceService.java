@@ -43,13 +43,10 @@ public class AttendanceService {
     private String getStatus(Today today, LocalDateTime attendanceTime) {
         LocalTime startTime = LectureSchedule.getLectureScheduleByName(today.getDayOfWeek()).getStartTime();
 
-        if (attendanceTime.toLocalTime().plusMinutes(5).isBefore(startTime)) {
-            return "출석";
-        }
-        if (attendanceTime.toLocalTime().plusMinutes(5).isAfter(startTime)) {
+        if (attendanceTime.toLocalTime().isAfter(startTime.plusMinutes(5))) {
             return "지각";
         }
-        if (attendanceTime.toLocalTime().plusMinutes(15).isAfter(startTime)) {
+        if (attendanceTime.toLocalTime().isAfter(startTime.plusMinutes(15))) {
             return "결석";
         }
         return "출석";
