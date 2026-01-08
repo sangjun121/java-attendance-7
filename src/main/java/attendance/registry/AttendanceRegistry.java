@@ -2,6 +2,7 @@ package attendance.registry;
 
 import attendance.controller.dto.AttendanceRequest;
 import attendance.domain.Attendance;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,24 @@ public class AttendanceRegistry {
 
     public static AttendanceRegistry getInstance() {
         return INSTANCE;
+    }
+
+    public boolean isExistAttendanceByName(LocalDate today, String name) {
+        for (Attendance attendance : attendances) {
+            if (attendance.getName().equals(name)) {
+                return isExistAttendance(attendance, today);
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] 등록되지 않은 닉네임입니다.");
+    }
+
+    public boolean isExistAttendance(Attendance attendance, LocalDate today) {
+        for (LocalDateTime attendanceTime : attendance.getAttendances()) {
+            if (attendanceTime.toLocalDate().equals(today)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void initializeAttendances(List<AttendanceRequest> requests) {

@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -33,5 +34,9 @@ public class Today {
 
     public String getDayOfWeek() {
         return currentTime.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN);
+    }
+
+    public LocalDate getLocalDate(){
+        return currentTime.toLocalDate();
     }
 }
