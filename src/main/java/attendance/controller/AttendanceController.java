@@ -2,6 +2,7 @@ package attendance.controller;
 
 import attendance.controller.dto.AttendanceRequest;
 import attendance.controller.dto.StatusResponse;
+import attendance.controller.dto.UpdateAttendanceResponse;
 import attendance.domain.Today;
 import attendance.service.AttendanceService;
 import attendance.view.InputView;
@@ -67,7 +68,9 @@ public class AttendanceController {
         attendanceService.validateFunctionPossible(today);
         String name = inputView.readUpdateName();
         int day = inputView.readUpdateDay(today);
-        LocalDateTime updateTime = inputView.readAttendanceTime(today);
+        LocalDateTime updateTime = inputView.readUpdateAttendanceTime(today, day);
+        UpdateAttendanceResponse updateAttendanceResponse = attendanceService.updateAttendance(name, updateTime);
+        outputView.printUpdateResult(updateAttendanceResponse);
     }
 
     private void readAttendance() {

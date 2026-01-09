@@ -32,33 +32,33 @@ public class InputView {
         return inputParser.parseFunctionNumber(input);
     }
 
-    public String readNickName(){
+    public String readNickName() {
         System.out.println(NAME_INPUT_GUIDE);
         String input = readLine();
         return inputParser.parseName(input);
     }
 
-    public LocalDateTime readAttendanceTime(Today today){
+    public LocalDateTime readAttendanceTime(Today today) {
         System.out.println(ATTENDANCE_TIME_INPUT_GUIDE);
         String input = readLine();
         return inputParser.parseAttendance(today, input);
     }
 
-    public String readUpdateName(){
+    public String readUpdateName() {
         System.out.println(UPDATE_NAME_INPUT_GUIDE);
         String input = readLine();
         return inputParser.parseName(input);
     }
 
-    public int readUpdateDay(Today today){
+    public int readUpdateDay(Today today) {
         System.out.println(UPDATE_DAY_GUIDE);
         String input = readLine();
         return inputParser.parseDay(today, input);
     }
 
-    public LocalDateTime readUpdateAttendanceTime(Today today){
+    public LocalDateTime readUpdateAttendanceTime(Today today, int updateDay) {
         System.out.println(UPDATE_TIME_GUIDE);
         String input = readLine();
-        return inputParser.parseAttendance(today, input);
+        return inputParser.parseUpdateAttendance(today, updateDay, input);
     }
 }

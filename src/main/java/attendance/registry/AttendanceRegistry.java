@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AttendanceRegistry {
     private static final AttendanceRegistry INSTANCE = new AttendanceRegistry();
@@ -46,13 +47,20 @@ public class AttendanceRegistry {
         updateStatus(findCrewByName(name), attendance);
     }
 
+    public Map<LocalDateTime, LocalDateTime> updateAttendance(String name, LocalDateTime attendanceTime) {
+        Attendance attendance = findAttendanceByName(name);
+        Map<LocalDateTime, LocalDateTime> updatedTimes = updateAttendance(attendance, attendanceTime);
+        updateStatus(findCrewByName(name), attendance);
+        return updatedTimes;
+    }
+
     public void initializeAttendances(List<AttendanceRequest> requests) {
         for (AttendanceRequest request : requests) {
             Attendance attendance = findAttendanceByName(request.name());
             updateAttendance(attendance, request.attendanceTime());
         }
 
-        for(Attendance attendance : attendances){
+        for (Attendance attendance : attendances) {
             Crew crew = new Crew(attendance.getName());
             updateStatus(crew, attendance);
             crews.add(crew);
@@ -60,7 +68,7 @@ public class AttendanceRegistry {
     }
 
     public boolean isExistCrew(String name) {
-        for(Crew crew : crews){
+        for (Crew crew : crews) {
             if (crew.getName().equals(name)) {
                 return true;
             }
@@ -79,13 +87,15 @@ public class AttendanceRegistry {
         return attendance;
     }
 
-    private void updateAttendance(Attendance attendance, LocalDateTime newAttendanceTime) {
-        for(LocalDateTime time : attendance.getAttendances()){
-            if(time.toLocalDate().equals(newAttendanceTime.toLocalDate())){
+    private Map<LocalDateTime, LocalDateTime> updateAttendance(Attendance attendance, LocalDateTime newAttendanceTime) {
+        for (LocalDateTime time : attendance.getAttendances()) {
+            if (time.toLocalDate().equals(newAttendanceTime.toLocalDate())) {
                 attendance.getAttendances().remove(time);
                 attendance.getAttendances().add(newAttendanceTime);
+                return Map.of(time, newAttendanceTime);
             }
         }
+        return null;
     }
 
     private void updateStatus(Crew crew, Attendance attendance) {

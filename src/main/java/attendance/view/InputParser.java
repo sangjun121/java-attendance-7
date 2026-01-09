@@ -50,6 +50,17 @@ public class InputParser {
         }
     }
 
+    public LocalDateTime parseUpdateAttendance(Today today, int day, String input) {
+        try {
+            LocalDateTime attendanceTime = LocalDateTime.parse(
+                    today.getYear() + "-" + today.getMonth() + "-" + day + "T" + input + ":00");
+            validateAttendanceTime(attendanceTime);
+            return attendanceTime;
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+        }
+    }
+
     public int parseDay(Today today, String input) {
         try {
             int day = Integer.parseInt(input);

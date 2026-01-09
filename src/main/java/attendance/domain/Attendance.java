@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -46,9 +47,10 @@ public class Attendance {
 
     private List<LocalDateTime> initMonthAllDay() {
         LinkedList<LocalDateTime> initAllDay = new LinkedList<>();
-        YearMonth todayMonth = YearMonth.now();
+        LocalDateTime today = DateTimes.now();
+        YearMonth todayMonth = YearMonth.of(today.getYear(), today.getMonth().getValue());
 
-        for (int i = 1; i <= todayMonth.atEndOfMonth().getDayOfMonth(); i++) {
+        for (int i = 1; i < today.getDayOfMonth(); i++) {
             if (!todayMonth.atDay(i).getDayOfWeek().equals(DayOfWeek.SATURDAY) && !todayMonth.atDay(i).getDayOfWeek()
                     .equals(DayOfWeek.SUNDAY)) {
                 initAllDay.add(LocalDateTime.of(todayMonth.atDay(i), LocalTime.MAX));

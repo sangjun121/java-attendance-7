@@ -2,6 +2,7 @@ package attendance.service;
 
 import attendance.controller.dto.AttendanceRequest;
 import attendance.controller.dto.StatusResponse;
+import attendance.controller.dto.UpdateAttendanceResponse;
 import attendance.domain.Attendance;
 import attendance.domain.Crew;
 import attendance.domain.LectureSchedule;
@@ -51,7 +52,18 @@ public class AttendanceService {
 
     public StatusResponse readStatusByName(String name) {
         Crew crew = attendanceRegistry.findCrewByName(name);
-        return new StatusResponse(crew.getAttendanceCount(), crew.getLateCount(), crew.getMissCount(), crew.getStatus());
+        return new StatusResponse(crew.getAttendanceCount(), crew.getLateCount(), crew.getMissCount(),
+                crew.getStatus());
+    }
+
+    public UpdateAttendanceResponse updateAttendance(String name, LocalDateTime updateTime) {
+        Map<LocalDateTime, LocalDateTime> updatedAttendance = attendanceRegistry.updateAttendance(name, updateTime);
+
+        for (Map.Entry<LocalDateTime, LocalDateTime> time : updatedAttendance.entrySet()) {
+            return new UpdateAttendanceResponse(time.getKey(), time.getValue(), getStatus(time.getKey()),
+                    getStatus(time.getValue()));
+        }
+        return null;
     }
 
     private void validateNewDate(LocalDate today, String name) {
