@@ -3,7 +3,9 @@ package attendance.view;
 import attendance.controller.dto.AttendanceRequest;
 import attendance.domain.Today;
 import attendance.registry.AttendanceRegistry;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,16 @@ public class InputParser {
         }
     }
 
+    public int parseDay(Today today, String input) {
+        try {
+            int day = Integer.parseInt(input);
+            validateDay(today, day);
+            return day;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+        }
+    }
+
     private LocalDateTime parseAttendanceTime(String input) {
         String formattedDateTime = input.replace(" ", "T") + ":00";
         try {
@@ -73,6 +85,18 @@ public class InputParser {
     private void validateName(String input) {
         if (!attendanceRegistry.isExistCrew(input)) {
             throw new IllegalArgumentException("[ERROR] 등록되지 않은 닉네임입니다.");
+        }
+    }
+
+    private void validateDay(Today today, int target) {
+        int todayDay = Integer.parseInt(today.getDate());
+        int endDay = YearMonth.now().atEndOfMonth().getDayOfMonth();
+        if (!(1 <= target && target <= endDay)) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 형식을 입력하였습니다.");
+        }
+
+        if (todayDay < target) {
+            throw new IllegalArgumentException("[ERROR] 아직 수정할 수 없습니다.");
         }
     }
 }
