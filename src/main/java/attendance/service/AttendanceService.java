@@ -1,7 +1,9 @@
 package attendance.service;
 
 import attendance.controller.dto.AttendanceRequest;
+import attendance.controller.dto.StatusResponse;
 import attendance.domain.Attendance;
+import attendance.domain.Crew;
 import attendance.domain.LectureSchedule;
 import attendance.domain.Today;
 import attendance.registry.AttendanceRegistry;
@@ -10,9 +12,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -49,6 +49,11 @@ public class AttendanceService {
         return makeResult(attendancesTime);
     }
 
+    public StatusResponse readStatusByName(String name) {
+        Crew crew = attendanceRegistry.findCrewByName(name);
+        return new StatusResponse(crew.getAttendanceCount(), crew.getLateCount(), crew.getMissCount(), crew.getStatus());
+    }
+
     private void validateNewDate(LocalDate today, String name) {
         if (attendanceRegistry.isExistAttendanceByName(today, name)) {
             throw new IllegalArgumentException("[ERROR] 이미 출석을 확인하였습니다. 필요한 경우 수정 기능을 이용해 주세요.");
@@ -59,11 +64,11 @@ public class AttendanceService {
         String dayOfWeek = attendanceTime.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN);
         LocalTime startTime = LectureSchedule.getLectureScheduleByName(dayOfWeek).getStartTime();
 
-        if (attendanceTime.toLocalTime().isAfter(startTime.plusMinutes(5))) {
-            return "지각";
-        }
         if (attendanceTime.toLocalTime().isAfter(startTime.plusMinutes(15))) {
             return "결석";
+        }
+        if (attendanceTime.toLocalTime().isAfter(startTime.plusMinutes(5))) {
+            return "지각";
         }
         return "출석";
     }

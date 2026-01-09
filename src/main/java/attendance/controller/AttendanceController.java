@@ -1,6 +1,7 @@
 package attendance.controller;
 
 import attendance.controller.dto.AttendanceRequest;
+import attendance.controller.dto.StatusResponse;
 import attendance.domain.Today;
 import attendance.service.AttendanceService;
 import attendance.view.InputView;
@@ -63,5 +64,7 @@ public class AttendanceController {
         String name = inputView.readNickName();
         Map<LocalDateTime, String> attendances = attendanceService.readAttendanceByName(name);
         outputView.printAttendancesResult(name, attendances);
+        StatusResponse statusResponse = attendanceService.readStatusByName(name);
+        outputView.printStatusResult(statusResponse);
     }
 }

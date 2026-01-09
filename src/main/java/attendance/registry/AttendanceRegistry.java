@@ -2,6 +2,7 @@ package attendance.registry;
 
 import attendance.controller.dto.AttendanceRequest;
 import attendance.domain.Attendance;
+import attendance.domain.Crew;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,9 +11,11 @@ import java.util.List;
 public class AttendanceRegistry {
     private static final AttendanceRegistry INSTANCE = new AttendanceRegistry();
     private final List<Attendance> attendances;
+    private final List<Crew> crews;
 
     private AttendanceRegistry() {
         this.attendances = new ArrayList<>();
+        this.crews = new ArrayList<>();
     }
 
     public static AttendanceRegistry getInstance() {
@@ -37,8 +40,10 @@ public class AttendanceRegistry {
         return false;
     }
 
-    public void saveAttendance(String name, LocalDateTime attendanceTime){
-        findAttendanceByName(name).getAttendances().add(attendanceTime);
+    public void saveAttendance(String name, LocalDateTime attendanceTime) {
+        Attendance attendance = findAttendanceByName(name);
+        updateAttendance(attendance, attendanceTime);
+        updateStatus(findCrewByName(name), attendance);
     }
 
     public void initializeAttendances(List<AttendanceRequest> requests) {
@@ -46,10 +51,21 @@ public class AttendanceRegistry {
             Attendance attendance = findAttendanceByName(request.name());
             updateAttendance(attendance, request.attendanceTime());
         }
+
+        for(Attendance attendance : attendances){
+            Crew crew = new Crew(attendance.getName());
+            updateStatus(crew, attendance);
+            crews.add(crew);
+        }
     }
 
-    public boolean isExistCrew(String name){
-        return !findAttendanceByName(name).getAttendances().isEmpty();
+    public boolean isExistCrew(String name) {
+        for(Crew crew : crews){
+            if (crew.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Attendance findAttendanceByName(String name) {
@@ -58,12 +74,30 @@ public class AttendanceRegistry {
                 return attendance;
             }
         }
-        Attendance attendance = new Attendance(name, new ArrayList<>());
+        Attendance attendance = new Attendance(name);
         attendances.add(attendance);
         return attendance;
     }
 
     private void updateAttendance(Attendance attendance, LocalDateTime newAttendanceTime) {
-        attendance.getAttendances().add(newAttendanceTime);
+        for(LocalDateTime time : attendance.getAttendances()){
+            if(time.toLocalDate().equals(newAttendanceTime.toLocalDate())){
+                attendance.getAttendances().remove(time);
+                attendance.getAttendances().add(newAttendanceTime);
+            }
+        }
+    }
+
+    private void updateStatus(Crew crew, Attendance attendance) {
+        crew.updateCount(attendance.getAllStatus());
+    }
+
+    public Crew findCrewByName(String name) {
+        for (Crew crew : crews) {
+            if (crew.getName().equals(name)) {
+                return crew;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] 등록되지 않은 닉네임입니다.");
     }
 }
